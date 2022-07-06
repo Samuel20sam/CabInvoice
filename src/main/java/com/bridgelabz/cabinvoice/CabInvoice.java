@@ -5,14 +5,15 @@ import java.util.Map;
 
 public class CabInvoice {
 
-    final int COST_PER_MIN = 1;
-    final double MIN_COST_PER_KM = 10;
-    final double MIN_FARE = 5;
+        int costPerMin;
+        double minCostPerKm;
+        double minFare;
 
     public double calculateFare(double distance, int time) {
-        double totalFare = distance * MIN_COST_PER_KM + time * COST_PER_MIN;
-        return Math.max(totalFare, MIN_FARE);
+        double totalFare = distance * minCostPerKm + time * costPerMin;
+        return Math.max(totalFare, minFare);
     }
+
     public double calculateFare(Ride[] rides){
         double  totalFare = 0;
         for (Ride ride : rides){
@@ -22,19 +23,14 @@ public class CabInvoice {
     }
 
     public Invoice generateInvoice(Ride[] rides){
-        double  totalFare = 0;
-        int numOfRides = 0;
-        double avgFare = 0;
+        double totalFare = calculateFare(rides);
+        int numOfRides = rides.length;
+        double avgFare = totalFare/numOfRides;
 
-        for (Ride ride : rides){
-            totalFare += this.calculateFare(ride.distance, ride.time);
-            numOfRides = rides.length;
-            avgFare = totalFare/numOfRides;
-        }
         return new Invoice (totalFare,numOfRides, avgFare);
     }
-    public Invoice generateUserBasedInvoice(int userId) {
 
+    public Invoice generateUserBasedInvoice(int userId) {
         Map<Integer, Ride[]> userMap = new LinkedHashMap<>();
 
         Ride[] userOne = {new Ride(2.0, 5), new Ride(0.1, 1), new Ride(20.5,35)};
@@ -46,8 +42,8 @@ public class CabInvoice {
         
         for (Map.Entry<Integer, Ride[]> entry : userMap.entrySet()) {
             if (userId == entry.getKey()) {
-                Ride[] ridesArray = entry.getValue();
-                return generateInvoice(ridesArray);
+                Ride[] userRides = entry.getValue();
+                return generateInvoice(userRides);
             }
         }
         return null;
