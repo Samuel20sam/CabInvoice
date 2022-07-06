@@ -10,10 +10,11 @@ public class CabInvoiceTest {
         cabInvoice.minFare = 5;
         cabInvoice.costPerMin = 1;
         cabInvoice.minCostPerKm = 10;
+
         double distance = 2.0;
         int time = 1;
         double fare = cabInvoice.calculateFare(distance, time);
-        Assertions.assertEquals(25.0, fare);
+        Assertions.assertEquals(21.0, fare);
     }
 
     @Test
