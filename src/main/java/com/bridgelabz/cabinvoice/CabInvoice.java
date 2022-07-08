@@ -1,6 +1,5 @@
 package com.bridgelabz.cabinvoice;
 
-import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class CabInvoice {
@@ -31,16 +30,8 @@ public class CabInvoice {
     }
 
     public Invoice generateUserBasedInvoice(int userId) {
-        Map<Integer, Ride[]> userMap = new LinkedHashMap<>();
-
-        Ride[] userOne = {new Ride(2.0, 5), new Ride(0.1, 1), new Ride(20.5,35)};
-        Ride[] userTwo = {new Ride(5.0, 9), new Ride(1, 1), new Ride(15.0,20)};
-        Ride[] userThree = {new Ride(8.0, 10), new Ride(3, 10), new Ride(10.0,10)};
-        userMap.put(1, userOne);
-        userMap.put(2, userTwo);
-        userMap.put(3, userThree);
-        
-        for (Map.Entry<Integer, Ride[]> entry : userMap.entrySet()) {
+        RideRepo rp = new RideRepo();
+        for (Map.Entry<Integer, Ride[]> entry : rp.userMap.entrySet()) {
             if (userId == entry.getKey()) {
                 Ride[] userRides = entry.getValue();
                 return generateInvoice(userRides);
